@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./Controls.css"
+import { TodoContext } from "../context/index";
+import { ADD_TODO, SET_FILTER } from "../reducer";
 
-function Controls({ filterType, onChangeFilterType, onSubmit }) {
+function Controls() {
+    const {state, dispatch} = useContext(TodoContext);
     const [text, setText] = useState("");
     const handleChange = (e) => {
         setText(e.target.value);
     };
     const handleSubmit = () => {
-        onSubmit(text)
+        dispatch({type: ADD_TODO, payload:text})
         setText("");
+    }
+    const handleChangeFilterType = (e) => {
+        dispatch({ type: SET_FILTER, payload: e.target.value })
     }
     return (
         <div className="controls">
@@ -19,7 +25,10 @@ function Controls({ filterType, onChangeFilterType, onSubmit }) {
                 onChange={handleChange}
             />
             <button className="button" onClick={handleSubmit}>Add</button>
-            <select className="select" value={filterType} onChange={e => onChangeFilterType(e.target.value)}>
+            <select 
+                className="select" 
+                value={state.filterType} 
+                onChange={handleChangeFilterType}>
                 <option value="TOTAL">Total</option>
                 <option value="TODO">To-do</option>
                 <option value="COMPLETED">Completed</option>
