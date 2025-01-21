@@ -4,7 +4,6 @@ import Controls from "./components/Controls";
 import TodoList from "./components/TodoList";
 import { TodoProvider } from "./context";
 
-
 function App() {
 
     return (

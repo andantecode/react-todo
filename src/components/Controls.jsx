@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import styles from "./Controls.module.css"
 import { TodoContext } from "../context/index";
 import { ADD_TODO, SET_FILTER } from "../reducer";
+import styled from "@emotion/styled";
 
 function Controls() {
     const {state, dispatch} = useContext(TodoContext);
@@ -17,7 +18,7 @@ function Controls() {
         dispatch({ type: SET_FILTER, payload: e.target.value })
     }
     return (
-        <div className={styles.controls}>
+        <Control>
             <input 
                 type="text" 
                 className={styles.input}
@@ -33,8 +34,17 @@ function Controls() {
                 <option value="TODO">To-do</option>
                 <option value="COMPLETED">Completed</option>
             </select>
-        </div>
+        </Control>
     )
 }
+
+const Control = styled.div`
+    display: flex;
+    gap: 6px;
+    height: 30px;
+`;
+const Input = styled.input``;
+const Button = styled.button``;
+const Select = styled.select``;
 
 export default Controls;

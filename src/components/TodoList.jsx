@@ -1,14 +1,14 @@
 import styles from "./TodoList.module.css"
 import TodoItem from "./TodoItem";
 import { TodoContext } from "../context/index";
-import { DELETE_TODO_COMPLETED, TOGGLE_TODO } from "../reducer";
+import { DELETE_TODO_COMPLETED, TOGGLE_TODO, TOGGLE_TODO_ALL } from "../reducer";
 import { useContext } from "react";
 
 function TodoList() {
     const { state, dispatch } = useContext(TodoContext);
     const completedCount = state.list.filter(item => item.completed).length;
     const handleToggleALL = e => {
-        dispatch({type: TOGGLE_TODO, payload: e.target.checked })
+        dispatch({type: TOGGLE_TODO_ALL, payload: e.target.checked })
     }
     const handleDeleteCompleted = () => {
         dispatch({type: DELETE_TODO_COMPLETED })
