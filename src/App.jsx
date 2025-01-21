@@ -2,69 +2,57 @@ import Layout from "./components/Layout";
 import Title from "./components/Title";
 import Controls from "./components/Controls";
 import TodoList from "./components/TodoList";
-import { useState, useRef } from "react";
+import { useState, useRef, useReducer, useEffect } from "react";
+import { init, initialState, TOGGLE_TODO, ADD_TODO, DELETE_TODO, DELETE_TODO_COMPLETED, reducer, SET_FILTER, TOGGLE_TODO_ALL, UPDATE_TODO } from "./reducer";
 
 
 function App() {
-    const idRef = useRef(1);
-    const [filterType, setFilterType] = useState("TOTAL")
+    const [state, dispatch] = useReducer(reducer, initialState, init);
+
+    useEffect(() => {
+        window.localStorage.setItem("TODO", JSON.stringify(state.list));
+        window.localStorage.setItem("ID", JSON.stringify(state.id));
+    })
+
     const handleChangeFilterType = (type) => {
-        setFilterType(type);
+        dispatch({type: SET_FILTER, payload: type})
     }
-    const [list, setList] = useState([
-        {
-            id: 1,
-            text: "hello",
-            completed: false
-        }
-    ]);
     const handleSubmit = (value) => {
-        idRef.current += 1
-        setList(prevList => prevList.concat({
-            id: (idRef.current),
-            text: value,
-            completed: false,
-        }))
+        dispatch({type: ADD_TODO, payload: value})
     }
     const handleToggle = (id) => {
-        setList(prevList => prevList.map(item => {
-            if (item.id === id) {
-                return {...item, completed: !item.completed};
-            }
-            return item;
-        }))
+        dispatch({type: TOGGLE_TODO, payload: id})
     }
     const handleToggleAll = (flag) => {
-        setList(prevList => prevList.map(item => ({...item, completed: flag})))
+        dispatch({type: TOGGLE_TODO_ALL, payload: flag})
     }
     const handleDelete = (id) => {
-        setList((prevList => prevList.filter((item) => item.id !== id)))
+        dispatch({type: DELETE_TODO, payload: id})
     }
     const handleDeleteCompleted = () => {
-        setList((prevList => prevList.filter(item => !item.completed)))
+        dispatch({type: DELETE_TODO_COMPLETED })
     }
     const handleUpdate = (id, text) => {
-        setList(prevList => prevList.map(item => {
-            if(item.id === id) {
-                return {...item, text};
-            }
-            return item;
-        }))
+        dispatch({type: UPDATE_TODO, payload: {
+            id,
+            text,
+        }})
     }
-    const filteredList = list.filter(item => {
-        if(filterType === "TOTAL") {
-            return item
-        } else if(filterType === "TODO") {
-            return !item.completed;
-        } else {
-            return item.completed;
+    const filteredList = state.list.filter(item => {
+        switch(state.filterType) {
+            case "TODO":
+                return !item.completed;
+            case "COMPLETED":
+                return item.completed;
+            default:
+                return true
         }
     })
     return (
         <div> 
             <Layout>
                 <Title />
-                <Controls filterType={filterType} onChangeFilterType={handleChangeFilterType} onSubmit={handleSubmit} />
+                <Controls filterType={state.filterType} onChangeFilterType={handleChangeFilterType} onSubmit={handleSubmit} />
                 <TodoList 
                     data={filteredList} 
                     onToggle={handleToggle} 
