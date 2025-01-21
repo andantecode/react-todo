@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import "./Controls.css"
+import styles from "./Controls.module.css"
 import { TodoContext } from "../context/index";
 import { ADD_TODO, SET_FILTER } from "../reducer";
 
@@ -17,16 +17,16 @@ function Controls() {
         dispatch({ type: SET_FILTER, payload: e.target.value })
     }
     return (
-        <div className="controls">
+        <div className={styles.controls}>
             <input 
                 type="text" 
-                className="input"
+                className={styles.input}
                 value={text}
                 onChange={handleChange}
             />
-            <button className="button" onClick={handleSubmit}>Add</button>
+            <button className={styles.button} onClick={handleSubmit}>Add</button>
             <select 
-                className="select" 
+                className={styles.select}
                 value={state.filterType} 
                 onChange={handleChangeFilterType}>
                 <option value="TOTAL">Total</option>

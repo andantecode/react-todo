@@ -1,4 +1,4 @@
-import "./TodoList.css"
+import styles from "./TodoList.module.css"
 import TodoItem from "./TodoItem";
 import { TodoContext } from "../context/index";
 import { DELETE_TODO_COMPLETED, TOGGLE_TODO } from "../reducer";
@@ -25,18 +25,18 @@ function TodoList() {
     })
     const isAllCompleted = filteredList.length > 0 && filteredList.every(item => item.completed);
     return (
-        <div className="todo-list">
-            <div className="todo-header">
+        <div className={styles["todo-list"]}>
+            <div className={styles["todo-header"]}>
                 <input 
                     type="checkbox" 
-                    className="todo-checkbox" 
+                    className={styles["todo-checkbox"]} 
                     checked={isAllCompleted}
                     onChange={handleToggleALL}
                     />
-                <p className="todo-header-text">To do</p>
+                <p className={styles["todo-header-text"]}>To do</p>
                 {completedCount > 0 && (
                     <button
-                        className="todo-header-button"
+                        className={styles["todo-header-button"]}
                         onClick={handleDeleteCompleted}>
                         Delete {completedCount}
                     </button>

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import "./TodoItem.css"
+import styles from "./TodoItem.module.css"
 import { TodoContext } from "../context/index";
 import { DELETE_TODO, TOGGLE_TODO, UPDATE_TODO } from "../reducer";
 
@@ -19,22 +19,22 @@ function TodoItem({id, text, completed }) {
         dispatch({type: DELETE_TODO, payload: id})
     }
     return (
-    <div className="todo-item">
+    <div className={styles["todo-item"]}>
         <input
             type="checkbox" 
-            className="todo-item-checkbox" 
+            className={styles["todo-item-checkbox"]}
             checked={completed}
             onChange={handleToggle}
             />
         {edit 
-            ? <input className="todo-edit-input" value={text} onChange={handleChange}/> 
-            : <p className={["todo-item-text", completed && "completed"].join(" ")}>{text}</p>}
+            ? <input className={styles["todo-edit-input"]} value={text} onChange={handleChange}/> 
+            : <p className={[styles["todo-item-text"], completed && styles["completed"]].join(" ")}>{text}</p>}
         <button 
-            className="todo-item-button"
+            className={styles["todo-item-button"]}
             onClick={handleEdit}>
                 Edit
         </button>
-        <button className="todo-item-button" onClick={handleDelete}>Delete</button>
+        <button className={styles["todo-item-button"]} onClick={handleDelete}>Delete</button>
     </div>
     );
 }
