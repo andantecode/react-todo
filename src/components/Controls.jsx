@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./Controls.module.css"
 import styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux";
-import { addTodo, setFilter } from "../store/todoSlice";
+import { createTodo, setFilter } from "../store/todoSlice";
 
 function Controls() {
     const state = useSelector(state => state.todo);
@@ -13,7 +13,7 @@ function Controls() {
         setText(e.target.value);
     };
     const handleSubmit = () => {
-        dispatch(addTodo(text))
+        dispatch(createTodo(text));
         setText("");
     }
     const handleChangeFilterType = (e) => {
