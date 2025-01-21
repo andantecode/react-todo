@@ -1,21 +1,23 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./Controls.module.css"
-import { TodoContext } from "../context/index";
-import { ADD_TODO, SET_FILTER } from "../reducer";
 import styled from "@emotion/styled";
+import { useSelector, useDispatch } from "react-redux";
+import { addTodo, setFilter } from "../store/todoSlice";
 
 function Controls() {
-    const {state, dispatch} = useContext(TodoContext);
+    const state = useSelector(state => state.todo);
+    const dispatch = useDispatch();
+    
     const [text, setText] = useState("");
     const handleChange = (e) => {
         setText(e.target.value);
     };
     const handleSubmit = () => {
-        dispatch({type: ADD_TODO, payload:text})
+        dispatch(addTodo(text))
         setText("");
     }
     const handleChangeFilterType = (e) => {
-        dispatch({ type: SET_FILTER, payload: e.target.value })
+        dispatch(setFilter(e.target.value))
     }
     return (
         <Control>
